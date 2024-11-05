@@ -1,23 +1,69 @@
 import { RES_URL } from "../utils/constants";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../utils/UserContext";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 const ResCard =(props)=>{
    const {resData}=props;
    const {name,cuisines,avgRating,costForTwo}=resData?.info;
    const {loggedUser} = useContext(UserContext);
 
+   const [isExpanded, setIsExpanded] = useState(false);
+
+    const handleToggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
    
     return (
-        <div className="m-4 p-2 w-[200px] bg-gray-100 rounded-lg hover:bg-gray-200 shadow-lg" >
+        <div 
+            className="m-4 w-[220px] h-[350px] bg-gray-100 rounded-lg hover:bg-gray-200 shadow-lg flex flex-col items-center"
+        >
+            <img
+                className="rounded-lg w-full h-[150px] object-cover"
+                alt="res-logo"
+                src={RES_URL + resData.info.cloudinaryImageId}
+            />
+    
+            {/* Restaurant name with ellipsis and full name on hover */}
+            <h3 
+                className="font-bold py-2 text-lg text-center w-full h-[30px] overflow-hidden" 
+                style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}
+                title={name} // Shows full name on hover
+            >
+                {name}
+            </h3>
+    
             
-            <img className="rounded-lg" alt="res-logo" src={RES_URL+resData.info.cloudinaryImageId}/>
-            <h3 className="font-bold py-4 text-lg">{name}</h3>
-            <h4> {cuisines.join(", ")}</h4>
-            <h4>{avgRating}</h4>
-            <h4>{costForTwo}</h4>
-            <h4>{loggedUser}</h4>
+            <div 
+                className="flex items-center justify-center font-bold rounded-full px-3 py-1 mt-2"
+            >
+                <span className={`${avgRating >= 4 ? 'text-green-500' : avgRating >= 3 ? 'text-yellow-500' : 'text-red-500'}`}>
+                    {avgRating}
+                </span>
+                <span className={`mr-1 ${avgRating >= 4 ? 'text-green-500' : avgRating >= 3 ? 'text-yellow-500' : 'text-red-500'}`}>
+                    <i className="fa-solid fa-star text-sm ml-2"></i>
+                </span>
+            </div>
+
+
+            <h4 className="text-center text-gray-700">{costForTwo}</h4>
+            
+            {/* Cuisine list  */}
+
+            <div 
+                className="text-center text-gray-600 w-full h-[80] overflow-y-auto cuisine-scrollbar"
+
+                style={{ whiteSpace: 'normal' }} // Wraps text within the section
+            >
+                {cuisines.join(", ")}
+            </div>
+
         </div>
     );
+    
+    
+
 
 };
 

@@ -69,7 +69,7 @@ const Body =()=>{
                 </div>
 
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap justify-center items-center m-auto ">
                {
                 filteredRestaurant.map((res) => 
                 <Link key= {res.info.id} to={"/restaurants/"+res.info.id}>
