@@ -24,8 +24,9 @@ const Body =()=>{
     //       whnerver a state variable gets update, react triggers a reconcilation cycle.(re-renders the componennet)
 
     const fetchData=async ()=>{
+
         // const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.3408807&lng=74.7421427&page_type=DESKTOP_WEB_LISTING");
-        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING");
+        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9141417&lng=74.8559568&page_type=DESKTOP_WEB_LISTING");
         const convertJson= await data.json();
         setListofRestaurant(convertJson?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setFileteredRestaruant(convertJson?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -45,30 +46,52 @@ const Body =()=>{
        
         <div className="body">
            
-            <div className="filter flex" > 
-                <div className="m-4 p-4" >
-                    <input type="text" className="border border-solid border-black" value={searchText} onChange={(e)=>{setSeachText(e.target.value)}} />
-                    <button className="px-4 py-2 bg-green-100 m-4 rounded-lg" onClick={()=>{
-                        const filterSearchRestaurant = listofRestaurants.filter((res) => res.info.name.toLowerCase().includes(searchText.toLowerCase()));
-                        setFileteredRestaruant(filterSearchRestaurant);
-
-                        }} > search</button>
-
+           <div className="filter flex flex-wrap justify-between p-1 bg-gray-50 rounded-lg shadow-md">
+                <div className="search-container m-4 flex flex-col md:flex-row items-center">
+                    <input 
+                        type="text" 
+                        className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" 
+                        placeholder="Search restaurants..." 
+                        value={searchText} 
+                        onChange={(e) => { setSeachText(e.target.value); }} 
+                    />
+                    <button 
+                        className="px-1 py-1 bg-green-500 text-white m-2 rounded-lg hover:bg-green-600 transition" 
+                        onClick={() => {
+                            const filterSearchRestaurant = listofRestaurants.filter((res) => 
+                                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                            );
+                            setFileteredRestaruant(filterSearchRestaurant);
+                        }} 
+                    >
+                        Search
+                    </button>
                 </div>
-                <div className="m-4 p-4 flex items-center">
-                <button className="px-4 py-2 bg-gray-100 rounded-lg" onClick={()=>{
 
-                    const filterdRes=listofRestaurants.filter((res)=>res.info.avgRating>4);
-                    setFileteredRestaruant(filterdRes);
-                    
-                }}>Top-rated restaurants </button>
-                </div>
-                <div className="m-4 p-4 flex items-center">
-                <label>User name :  </label>
-                <input className="border border-black" value={loggedUser} onChange = {(e) => setUserName(e.target.value) }/>
+                <div className="top-rated-container m-4 flex items-center">
+                    <button 
+                        className="px-1 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition" 
+                        onClick={() => {
+                            const filterdRes = listofRestaurants.filter((res) => res.info.avgRating > 4.5);
+                            setFileteredRestaruant(filterdRes);
+                        }} 
+                    >
+                        Rating: 4+
+                    </button>
                 </div>
 
+                <div className="user-name-container m-4 flex items-center">
+                    <label className="mr-2 font-medium">User Name:</label>
+                    <input 
+                        className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition" 
+                        value={loggedUser} 
+                        onChange={(e) => setUserName(e.target.value)} 
+                    />
+                </div>
             </div>
+
+
+
             <div className="flex flex-wrap justify-center items-center m-auto ">
                {
                 filteredRestaurant.map((res) => 

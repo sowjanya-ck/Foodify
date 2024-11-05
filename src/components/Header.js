@@ -24,7 +24,7 @@ const Header=()=>{
     })
 
     return(
-        <div className="flex justify-between bg-pink-100 shadow-lg mb-5 sm:bg-yellow-100 lg:bg-green-100">
+        <div className="flex justify-between bg-pink-100 shadow-lg mb-5 sm:bg-yellow-100 lg:bg-green-100 sticky top-0 z-10">
             <div className="logo-items">
                 <img className="w-[58]" src= {LOGO_URL}/>
             </div>
@@ -34,7 +34,7 @@ const Header=()=>{
                     <li className="px-4"><Link to ="/">Home</Link></li>
                     <li className="px-4"><Link to ="/">Menu Board</Link></li>
                     {/* its not good way to use anchor tag, because its refreshes the whole page. */}
-                    {/* <li className="px-4">< a href="/about"> About us </a></li>  */}
+                    <li className="px-4">< a href="/about"> About us </a></li> 
                     <li className="px-4"><Link to="/contact-us">Contact Us</Link></li>
                     <li className="px-4"><Link to="/cart"> Cart({cartItems.length})</Link> </li> 
                     {/* <li className="px-4"><a href="/Grocery">Grocery</a></li> */}
