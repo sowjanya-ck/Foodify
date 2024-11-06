@@ -48,13 +48,22 @@ const Body =()=>{
            
            <div className="filter flex flex-wrap justify-between p-1 bg-gray-50 rounded-lg shadow-md">
                 <div className="search-container m-4 flex flex-col md:flex-row items-center">
-                    <input 
-                        type="text" 
-                        className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" 
-                        placeholder="Search restaurants..." 
-                        value={searchText} 
-                        onChange={(e) => { setSeachText(e.target.value); }} 
-                    />
+                <input 
+                    type="text" 
+                    className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" 
+                    placeholder="Search restaurants..." 
+                    value={searchText} 
+                    onChange={(e) => {
+                        const searchTextValue = e.target.value;
+                        setSeachText(searchTextValue);
+                        
+                        // Filter restaurants as you type
+                        const filteredRestaurants = listofRestaurants.filter((res) => 
+                            res.info.name.toLowerCase().includes(searchTextValue.toLowerCase())
+                        );
+                        setFileteredRestaruant(filteredRestaurants);
+                    }} 
+                />
                     <button 
                         className="px-1 py-1 bg-green-500 text-white m-2 rounded-lg hover:bg-green-600 transition" 
                         onClick={() => {
@@ -69,16 +78,22 @@ const Body =()=>{
                 </div>
 
                 <div className="top-rated-container m-4 flex items-center">
-                    <button 
-                        className="px-1 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition" 
-                        onClick={() => {
-                            const filterdRes = listofRestaurants.filter((res) => res.info.avgRating > 4.5);
-                            setFileteredRestaruant(filterdRes);
-                        }} 
-                    >
-                        Rating: 4+
-                    </button>
+                        <select 
+                            className="px-2 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition" 
+                            onChange={(e) => {
+                                const selectedRating = parseFloat(e.target.value);
+                                const filteredRes = listofRestaurants.filter((res) => res.info.avgRating >= selectedRating);
+                                setFileteredRestaruant(filteredRes);
+                            }}
+                        >
+                            <option value="">Filter by Rating</option>
+                            <option value="3">Rating 3+</option>
+                            <option value="4">Rating 4+</option>
+                            <option value="4.5">Rating 4.5+</option>
+                            <option value="5">Rating 5+</option>
+                        </select>
                 </div>
+
 
                 <div className="user-name-container m-4 flex items-center">
                     <label className="mr-2 font-medium">User Name:</label>
@@ -92,24 +107,24 @@ const Body =()=>{
 
 
 
-            <div className="flex flex-wrap justify-center items-center m-auto ">
-               {
-                filteredRestaurant.map((res) => 
-                <Link key= {res.info.id} to={"/restaurants/"+res.info.id}>
-                    {/* if the restaurant is veg then add veg label */}
-                    
-                    {
-                        res.info.veg && res.info.veg?(
-                            <ResCardVeg resData = {res} />
-                        ) :
-                        (
-                            <ResCard resData = {res} />
-                        )
-                    }
-                </Link>
-                )
-               }
+            <div className="flex flex-wrap justify-center items-center m-auto">
+                {filteredRestaurant.length > 0 ? (
+                    filteredRestaurant.map((res) => 
+                        <Link key={res.info.id} to={"/restaurants/" + res.info.id}>
+                            {res.info.veg ? (
+                                <ResCardVeg resData={res} />
+                            ) : (
+                                <ResCard resData={res} />
+                            )}
+                        </Link>
+                    )
+                ) : (
+                    <div className="text-gray-500 text-center py-4">
+                        No restaurants found.
+                    </div>
+                )}
             </div>
+
         </div>
     )
 }

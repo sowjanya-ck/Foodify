@@ -23,7 +23,7 @@ const Applayout = () =>{
     //
     useEffect(()=>{
         const data =  {
-            name: "sowjanya k"
+            name: "Login"
         }
         setUserName(data.name);
     },[])

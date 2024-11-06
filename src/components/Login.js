@@ -6,7 +6,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {loggedUser, setUserName} = useContext(UserContext);
+  const { setUserName } = useContext(UserContext);
   const history = useNavigate();
 
   const handleSubmit = (e) => {
@@ -15,6 +15,7 @@ const Login = () => {
       // Simulate login
       if (username === "sowjanya" && password === "sow") {
         alert("Login successful!");
+        setUserName(username); // Update the context with the logged-in username
         history('/');
       } else {
         alert("Invalid username or password");
@@ -23,6 +24,7 @@ const Login = () => {
       // Simulate signup
       if (username && password) {
         alert("Signup successful!");
+        setUserName(username); // Update the context with the signed-up username
         history("/");
       } else {
         alert("Please fill in all fields");
