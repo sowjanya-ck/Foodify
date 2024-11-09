@@ -38,12 +38,9 @@ const Header=()=>{
                 <ul className="flex space-x-6 text-gray-600 font-medium">
                   {/* <li className="px-4">Online status: {onlineCheck ? "🟢" : "🔴"}</li> */}
                   <li><Link to="/" className="hover:text-red-500">Home</Link></li>
-                  <li><Link to="/menu-board" className="hover:text-red-500">Menu Board</Link></li>
                   <li><a href="/about" className="hover:text-red-500">About Us</a></li>
                   <li><Link to="/contact-us" className="hover:text-red-500">Contact Us</Link></li>
-                  <li><Link to="/cart" className="hover:text-red-500">Cart ({cartItems.length})</Link></li>
                   {/* <li className="px-4"><a href="/Grocery">Grocery</a></li> */}
-                  <li className="text-gray-600 px-4">{loggedUser}</li>
                 </ul>
             </div>
     
@@ -56,8 +53,8 @@ const Header=()=>{
                     {cartItems.length}
                 </span>
                 )}
-            </Link>
-                <Link to="/profile">
+              </Link>
+                <Link to="/login">
                   <svg
                     className="w-6 h-6 text-gray-600 hover:text-red-500"
                     fill="currentColor"
@@ -68,9 +65,13 @@ const Header=()=>{
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                   </svg>
                 </Link>
+                <div className="text-gray-600 px-4">{loggedUser}</div>
+
                 {/* <button onClick={()=>{ btnName ==="Login" ? setBtnName("Logout") : setBtnName("Login"); }}>{btnName}</button> */}
               </div>
             </div>
     )
 }
 export default Header;
+
+

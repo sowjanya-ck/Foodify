@@ -5,6 +5,7 @@ import { useState, useEffect,useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import UserContext from "../utils/UserContext";
+import Footer from "./Footer";
 
 import useOnlineStatuus from "../utils/useOnlineStatus";
 
@@ -46,63 +47,54 @@ const Body =()=>{
        
         <div className="body">
            
-           <div className="filter flex flex-wrap justify-between p-1 bg-gray-50 rounded-lg shadow-md">
-                <div className="search-container m-4 flex flex-col md:flex-row items-center">
-                <input 
-                    type="text" 
-                    className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" 
-                    placeholder="Search restaurants..." 
-                    value={searchText} 
-                    onChange={(e) => {
-                        const searchTextValue = e.target.value;
-                        setSeachText(searchTextValue);
+           
+
+            <div className="flex items-center justify-center p-4">
+                        <div className="flex w-full bg-white rounded-lg mx-12 shadow-lg overflow-hidden">
+                        {/* Left side (Search section) */}
+                        <div className="flex flex-col justify-center w-1/2 bg-red-500 p-6">
+                            <h1 className="text-white text-2xl font-bold mb-2">Delicious Food, Delivered to You</h1>
+                            <p className="text-white mb-4">Discover the best restaurants in your area</p>
+                            <div className="flex items-center">
+                            <input
+                                type="text"
+                                placeholder="Search restaurants..."
+                                value={searchText} 
+                                onChange={(e) => {
+                                    const searchTextValue = e.target.value;
+                                    setSeachText(searchTextValue);
+                                    
+                                    // Filter restaurants as you type
+                                    const filteredRestaurants = listofRestaurants.filter((res) => 
+                                        res.info.name.toLowerCase().includes(searchTextValue.toLowerCase())
+                                    );
+                                    setFileteredRestaruant(filteredRestaurants);
+                                }} 
+                                className="w-full px-4 py-2 text-gray-700 rounded-l-lg focus:outline-none"
+                            />
+                            <button className="px-4 py-2 bg-white text-red-500 rounded-r-lg">
+                                <i className="fas fa-search"></i>
+                            </button>
+                            </div>
+                        </div>
                         
-                        // Filter restaurants as you type
-                        const filteredRestaurants = listofRestaurants.filter((res) => 
-                            res.info.name.toLowerCase().includes(searchTextValue.toLowerCase())
-                        );
-                        setFileteredRestaruant(filteredRestaurants);
-                    }} 
-                />
-                    <button 
-                        className="px-1 py-1 bg-green-500 text-white m-2 rounded-lg hover:bg-green-600 transition" 
-                        onClick={() => {
-                            const filterSearchRestaurant = listofRestaurants.filter((res) => 
-                                res.info.name.toLowerCase().includes(searchText.toLowerCase())
-                            );
-                            setFileteredRestaruant(filterSearchRestaurant);
-                        }} 
-                    >
-                        Search
-                    </button>
-                </div>
-
-                <div className="top-rated-container m-4 flex items-center">
-                        <select 
-                            className="px-2 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition" 
-                            onChange={(e) => {
-                                const selectedRating = parseFloat(e.target.value);
-                                const filteredRes = listofRestaurants.filter((res) => res.info.avgRating >= selectedRating);
-                                setFileteredRestaruant(filteredRes);
-                            }}
-                        >
-                            <option value="">Filter by Rating</option>
-                            <option value="3">Rating 3+</option>
-                            <option value="4">Rating 4+</option>
-                            <option value="4.5">Rating 4.5+</option>
-                            <option value="5">Rating 5+</option>
-                        </select>
-                </div>
-
-
-                <div className="user-name-container m-4 flex items-center">
-                    <label className="mr-2 font-medium">User Name:</label>
-                    <input 
-                        className="border border-gray-300 p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition" 
-                        value={loggedUser} 
-                        onChange={(e) => setUserName(e.target.value)} 
-                    />
-                </div>
+                        {/* Right side (Placeholder section for Filter by Rating) */}
+                            <div className="flex items-center justify-center w-1/2 bg-gray-200 p-6">
+                                <select className="w-full px-4 py-2 bg-white text-gray-700 rounded focus:outline-none"
+                                    onChange={(e) => {
+                                    const selectedRating = parseFloat(e.target.value);
+                                    const filteredRes = listofRestaurants.filter((res) => res.info.avgRating >= selectedRating);
+                                    setFileteredRestaruant(filteredRes);
+                                }}>
+                                    <option value="0">Filter by rating</option>
+                                    <option value="5">5 Stars</option>
+                                    <option value="4">4 Stars & Up</option>
+                                    <option value="3">3 Stars & Up</option>
+                                    <option value="2">2 Stars & Up</option>
+                                    <option value="1">1 Star & Up</option>
+                                </select>
+                            </div>
+                        </div>
             </div>
 
 
@@ -124,6 +116,8 @@ const Body =()=>{
                     </div>
                 )}
             </div>
+
+            <Footer/>
 
         </div>
     )
