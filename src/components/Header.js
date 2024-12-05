@@ -39,7 +39,7 @@ const Header=()=>{
                   {/* <li className="px-4">Online status: {onlineCheck ? "🟢" : "🔴"}</li> */}
                   <li><Link to="/" className="hover:text-red-500">Home</Link></li>
                   <li><a href="/about" className="hover:text-red-500">About Us</a></li>
-                  <li><Link to="/contact-us" className="hover:text-red-500">Contact Us</Link></li>
+                  {/* <li><Link to="/contact-us" className="hover:text-red-500">Contact Us</Link></li> */}
                   {/* <li className="px-4"><a href="/Grocery">Grocery</a></li> */}
                 </ul>
             </div>
