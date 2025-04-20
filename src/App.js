@@ -19,8 +19,8 @@ const Grocery = lazy(()=>import("./components/Grocery"));
 
 const Applayout = () =>{
 
-    const [userName , setUserName] =  useState();
-    //
+    const [userName , setUserName] =  useState("");
+
     useEffect(()=>{
         const data =  {
             name: "Login"
